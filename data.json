@@ -1,0 +1,143 @@
+{
+    "seller": {
+        "name": "作品现房(回龙观)",
+        "description": "蜂鸟转送",
+        "deliveryTime": 39,
+        "score": 4.2,
+        "serviceScore": 4.2,
+        "foodScore": 4.3,
+        "rankRate": 69.3,
+        "minPriice": 29,
+        "deliveryPrice": 4,
+        "ratingCount": 24,
+        "sellCount": 90,
+        "bulletin": "埃里克来得及发看手机地方撒家爱的三个师傅告诉大哥狂介绍看得反甲啊绿山咖啡",
+        "supports": [{
+                "type": 0,
+                "description": "在线支付满32"
+            },
+            {
+                "type": 1,
+                "description": "爱的三个师32"
+            },
+            {
+                "type": 2,
+                "description": "傅告诉大哥32"
+            },
+            {
+                "type": 3,
+                "description": "在线支付满32"
+            },
+            {
+                "type": 4,
+                "description": "三个师傅哥32"
+            }
+        ],
+        "avatar": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535698560844&di=498a236290aa704a2af5b219dbf39395&imgtype=0&src=http%3A%2F%2Fuploads.xuexila.com%2Fallimg%2F1610%2F859-161031195210.jpg",
+        "infos": [
+            "阿斯顿发杀神风",
+            "阿斯顿发杀神风",
+            "阿斯顿发杀神风",
+            "阿斯顿发杀神风"
+        ]
+    },
+    "goods": [{
+        "name": "热销榜",
+        "type": 2,
+        "foods": [{
+            "name": "皮蛋粥",
+            "price": 10,
+            "oldPrice": "",
+            "description": "香洲",
+            "sellCount": 220,
+            "rating": 100,
+            "info": "氨基酸来得快就发了可视对讲法拉克",
+            "ratings": [{
+                    "username": "323232323",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32367623",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32asdf3",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                }
+            ],
+            "icon": "asldflkasjf.jpg",
+            "image": "asdlfkjasdf.jpg"
+        }]
+    }],
+    "ratings": [
+        {
+            "username": "34kj3l453k4j5",
+            "rateTime": 3847598374953,
+            "deliveryTime": 30,
+            "score": 5,
+            "rateTye": 0,
+            "text": "埃里克森的积分卡设计费",
+            "avatar": "http:alskdfj.png",
+            "recommend": [
+                "南官庄",
+                "阿斯扥",
+                "薇儿",
+                "沃尔夫"
+            ]
+        },
+        {
+            "username": "34kj3l453k4j5",
+            "rateTime": 3847598374953,
+            "deliveryTime": 30,
+            "score": 5,
+            "rateTye": 0,
+            "text": "埃里克森的积分卡设计费",
+            "avatar": "http:alskdfj.png",
+            "recommend": [
+                "南官庄",
+                "阿斯扥",
+                "薇儿",
+                "沃尔夫"
+            ]
+        },
+        {
+            "username": "34kj3l453k4j5",
+            "rateTime": 3847598374953,
+            "deliveryTime": 30,
+            "score": 5,
+            "rateTye": 0,
+            "text": "埃里克森的积分卡设计费",
+            "avatar": "http:alskdfj.png",
+            "recommend": [
+                "南官庄",
+                "阿斯扥",
+                "薇儿",
+                "沃尔夫"
+            ]
+        },
+        {
+            "username": "34kj3l453k4j5",
+            "rateTime": 3847598374953,
+            "deliveryTime": 30,
+            "score": 5,
+            "rateTye": 0,
+            "text": "埃里克森的积分卡设计费",
+            "avatar": "http:alskdfj.png",
+            "recommend": [
+                "南官庄",
+                "阿斯扥",
+                "薇儿",
+                "沃尔夫"
+            ]
+        }
+    ]
+}
