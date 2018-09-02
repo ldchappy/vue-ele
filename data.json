@@ -42,7 +42,7 @@
         ]
     },
     "goods": [{
-        "name": "热销榜",
+        "name": "热销榜2",
         "type": 2,
         "foods": [{
             "name": "皮蛋粥",
@@ -74,7 +74,260 @@
                     "avatar": "http://asdf.png"
                 }
             ],
-            "icon": "asldflkasjf.jpg",
+            "icon": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535789038130&di=df3dbc89be59adaf67448ade008212bb&imgtype=0&src=http%3A%2F%2Fp1.wmpic.me%2Farticle%2F2015%2F10%2F26%2F1445822562_HCrhlTCl.JPG",
+            "image": "asdlfkjasdf.jpg"
+        }]
+    },
+    {
+        "name": "热销榜0",
+        "type": 0,
+        "foods": [{
+            "name": "皮蛋粥",
+            "price": 10,
+            "oldPrice": "",
+            "description": "香洲",
+            "sellCount": 220,
+            "rating": 100,
+            "info": "氨基酸来得快就发了可视对讲法拉克",
+            "ratings": [{
+                    "username": "323232323",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32367623",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32asdf3",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                }
+            ],
+            "icon": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535789038130&di=df3dbc89be59adaf67448ade008212bb&imgtype=0&src=http%3A%2F%2Fp1.wmpic.me%2Farticle%2F2015%2F10%2F26%2F1445822562_HCrhlTCl.JPG",
+            "image": "asdlfkjasdf.jpg"
+        }]
+    },{
+        "name": "热销榜1",
+        "type": 1,
+        "foods": [{
+            "name": "皮蛋粥",
+            "price": 10,
+            "oldPrice": "",
+            "description": "香洲",
+            "sellCount": 220,
+            "rating": 100,
+            "info": "氨基酸来得快就发了可视对讲法拉克",
+            "ratings": [{
+                    "username": "323232323",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32367623",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32asdf3",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                }
+            ],
+            "icon": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535789038130&di=df3dbc89be59adaf67448ade008212bb&imgtype=0&src=http%3A%2F%2Fp1.wmpic.me%2Farticle%2F2015%2F10%2F26%2F1445822562_HCrhlTCl.JPG",
+            "image": "asdlfkjasdf.jpg"
+        }]
+    },{
+        "name": "热销榜1",
+        "type": 1,
+        "foods": [{
+            "name": "皮蛋粥",
+            "price": 10,
+            "oldPrice": "",
+            "description": "香洲",
+            "sellCount": 220,
+            "rating": 100,
+            "info": "氨基酸来得快就发了可视对讲法拉克",
+            "ratings": [{
+                    "username": "323232323",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32367623",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32asdf3",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                }
+            ],
+            "icon": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535789038130&di=df3dbc89be59adaf67448ade008212bb&imgtype=0&src=http%3A%2F%2Fp1.wmpic.me%2Farticle%2F2015%2F10%2F26%2F1445822562_HCrhlTCl.JPG",
+            "image": "asdlfkjasdf.jpg"
+        }]
+    },{
+        "name": "热销榜1",
+        "type": 1,
+        "foods": [{
+            "name": "皮蛋粥",
+            "price": 10,
+            "oldPrice": "",
+            "description": "香洲",
+            "sellCount": 220,
+            "rating": 100,
+            "info": "氨基酸来得快就发了可视对讲法拉克",
+            "ratings": [{
+                    "username": "323232323",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32367623",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32asdf3",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                }
+            ],
+            "icon": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535789038130&di=df3dbc89be59adaf67448ade008212bb&imgtype=0&src=http%3A%2F%2Fp1.wmpic.me%2Farticle%2F2015%2F10%2F26%2F1445822562_HCrhlTCl.JPG",
+            "image": "asdlfkjasdf.jpg"
+        }]
+    },{
+        "name": "热销榜1",
+        "type": 1,
+        "foods": [{
+            "name": "皮蛋粥",
+            "price": 10,
+            "oldPrice": "",
+            "description": "香洲",
+            "sellCount": 220,
+            "rating": 100,
+            "info": "氨基酸来得快就发了可视对讲法拉克",
+            "ratings": [{
+                    "username": "323232323",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32367623",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32asdf3",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                }
+            ],
+            "icon": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535789038130&di=df3dbc89be59adaf67448ade008212bb&imgtype=0&src=http%3A%2F%2Fp1.wmpic.me%2Farticle%2F2015%2F10%2F26%2F1445822562_HCrhlTCl.JPG",
+            "image": "asdlfkjasdf.jpg"
+        }]
+    },{
+        "name": "热销榜1",
+        "type": 1,
+        "foods": [{
+            "name": "皮蛋粥",
+            "price": 10,
+            "oldPrice": "",
+            "description": "香洲",
+            "sellCount": 220,
+            "rating": 100,
+            "info": "氨基酸来得快就发了可视对讲法拉克",
+            "ratings": [{
+                    "username": "323232323",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32367623",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32asdf3",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                }
+            ],
+            "icon": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535789038130&di=df3dbc89be59adaf67448ade008212bb&imgtype=0&src=http%3A%2F%2Fp1.wmpic.me%2Farticle%2F2015%2F10%2F26%2F1445822562_HCrhlTCl.JPG",
+            "image": "asdlfkjasdf.jpg"
+        }]
+    },{
+        "name": "热销榜1",
+        "type": 1,
+        "foods": [{
+            "name": "皮蛋粥",
+            "price": 10,
+            "oldPrice": "",
+            "description": "香洲",
+            "sellCount": 220,
+            "rating": 100,
+            "info": "氨基酸来得快就发了可视对讲法拉克",
+            "ratings": [{
+                    "username": "323232323",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32367623",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                },
+                {
+                    "username": "32asdf3",
+                    "rateTime": 124345234553263,
+                    "rateType": 0,
+                    "text": "可以可以",
+                    "avatar": "http://asdf.png"
+                }
+            ],
+            "icon": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1535789038130&di=df3dbc89be59adaf67448ade008212bb&imgtype=0&src=http%3A%2F%2Fp1.wmpic.me%2Farticle%2F2015%2F10%2F26%2F1445822562_HCrhlTCl.JPG",
             "image": "asdlfkjasdf.jpg"
         }]
     }],

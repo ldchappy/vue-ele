@@ -28,7 +28,7 @@ export default {
     }
   },
   created(){
-    this.$http.get('http://192.168.10.234:3000/api/seller').then(response => {
+    this.$http.get('http://192.168.0.103:3000/api/seller').then(response => {
       response = response.body;
       if(response.errno === ERR_OK){
         this.seller = response.data;
