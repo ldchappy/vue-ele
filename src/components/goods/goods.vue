@@ -2,16 +2,16 @@
     <div class="good">
         <div class="menu-wrapper" ref="menuWrapper">
             <ul>
-                <li v-for="item in goods" class="nemu-item">
+                <li v-for="(item,index) in goods" class="nemu-item" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)">
                     <span class="text border-1px" >
                         <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
                     </span>
                 </li>
             </ul>
         </div>
-        <div class="foods-wrapper" ref="foodWrapper">
+        <div class="foods-wrapper" ref="foodsWrapper">
             <ul>
-                <li class="food-list" v-for="item in goods">
+                <li class="food-list food-list-hook" v-for="item in goods">
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
                         <li class="food-item" v-for="food in item.foods">
@@ -37,10 +37,12 @@
                 </li>
             </ul>
         </div>
+        <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
     </div>
 </template>
 <script>
 import BScroll from 'better-scroll';
+import shopcart from 'components/shopcart/shopcart';
 
 const ERR_OK = 0;
     export default{
@@ -50,10 +52,13 @@ const ERR_OK = 0;
         components: { BScroll },
         data(){
             return {
-                goods : []
+                goods : [],
+                listHeight : [],
+                scrollY:0
             }
         },
         created(){
+
             this.classMap = ['jiang','man','shou','song','zhe'];
 
             this.$http.get('http://192.168.10.234:3000/api/goods').then(response =>{
@@ -61,17 +66,58 @@ const ERR_OK = 0;
                 if(response.errno === ERR_OK){
                     this.goods = response.data;
                     console.log(this.goods);
-                    this.$nextTick( () =>{
+                    this.$nextTick( () =>{//$nextTick表明元素已经渲染好
                         this._initScroll();
+                        this._calulateHeight();
                     });
                 }
             })
         },
+        computed:{
+            currentIndex(){
+                for(let i=0;i<this.listHeight.length;i++){
+                    let height1 = this.listHeight[i];
+                    let height2 = this.listHeight[i + 1];
+                    if(!height2 || (this.scrollY >= height1 && this.scrollY < height2)){
+                        return i;
+                    }
+                }
+                return 0;
+            }
+        },
         methods:{
             _initScroll(){
-                this.meunScroll = new BScroll(this.$refs.menuWrapper,{});
-                this.meunScroll = new BScroll(this.$refs.foodWrapper,{});
+                this.meunScroll = new BScroll(this.$refs.menuWrapper,{
+                    click:true
+                });
+                this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
+                    probeType:3
+                });
+                this.foodsScroll.on('scroll',(pos) => {
+                    this.scrollY = Math.abs(Math.round(pos.y));
+                })
+            },
+            _calulateHeight(){
+                let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+                let height = 0;
+                this.listHeight.push(height);
+                for(let i = 0;i < foodList.length; i++){
+                    let item = foodList[i];
+                    height += item.clientHeight;
+                    this.listHeight.push(height);
+                }
+            },
+            selectMenu(index,event){
+                if(!event._constructed){//派发事件
+                    return;
+                }
+                let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+                let el = foodList[index];
+                this.foodsScroll.scrollToElement(el,300);
             }
+        },
+        components:{
+            shopcart
         }
     }
 </script>
@@ -90,11 +136,19 @@ const ERR_OK = 0;
             background:#f3f5f7;
             .nemu-item{
                 display:table;
-                height:54px;
+                height:54px;     
                 width:80px;
                 line-height:54px;
                 text-align: center;
                 position: relative;
+                &.current{
+                    font-size:24px;
+                    position:relative;
+                    margin-top:-1px;
+                    z-index:10;
+                    background:#fff;
+                    font-weight:700;
+                }
                 .icon{
                     display:inline-block;
                     width:12px;
