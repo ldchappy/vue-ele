@@ -4,7 +4,7 @@
             <ul>
                 <li v-for="(item,index) in goods" class="nemu-item" :class="{'current':currentIndex === index}" @click="selectMenu(index,$event)">
                     <span class="text border-1px" >
-                        <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
+                        <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
                     </span>
                 </li>
             </ul>
@@ -31,25 +31,28 @@
                                     <span class="now">￥{{food.price}}</span>
                                     <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                                 </div>
+                                <div class="cartcontrol-wrapper">
+                                    <cartcontrol :food='food' @add="addFood"></cartcontrol>
+                                </div>
                             </div>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+        <shopcart ref="shopcart"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
     </div>
 </template>
 <script>
 import BScroll from 'better-scroll';
 import shopcart from 'components/shopcart/shopcart';
+import cartcontrol from 'components/cartcontrol/cartcontrol';
 
 const ERR_OK = 0;
     export default{
         props:{
             seller : Object
         },
-        components: { BScroll },
         data(){
             return {
                 goods : [],
@@ -65,7 +68,6 @@ const ERR_OK = 0;
                 response = response.body;
                 if(response.errno === ERR_OK){
                     this.goods = response.data;
-                    console.log(this.goods);
                     this.$nextTick( () =>{//$nextTick表明元素已经渲染好
                         this._initScroll();
                         this._calulateHeight();
@@ -91,7 +93,8 @@ const ERR_OK = 0;
                     click:true
                 });
                 this.foodsScroll = new BScroll(this.$refs.foodsWrapper,{
-                    probeType:3
+                    probeType:3,
+                    click:true
                 });
                 this.foodsScroll.on('scroll',(pos) => {
                     this.scrollY = Math.abs(Math.round(pos.y));
@@ -114,10 +117,23 @@ const ERR_OK = 0;
                 let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
                 let el = foodList[index];
                 this.foodsScroll.scrollToElement(el,300);
+            },
+            //子组件$emit派发而来的事件
+            addFood(target){
+                this._drop(target);
+            },
+            _drop(target){
+                //调用shopcar组件中的drop方法，向其传入当前点击的dom对象
+                //this.$refs.shopcart.drop(target);
+                //体验优化，异步执行下落动画
+                this.$nextTick(() =>{
+                    this.$refs.shopcart.drop(target);//这样可以调用到子组件的方法
+                })
             }
         },
         components:{
-            shopcart
+            shopcart,
+            cartcontrol
         }
     }
 </script>
@@ -258,6 +274,11 @@ const ERR_OK = 0;
                             font-size:10px;
                             color:rgb(7,27,37);
                         }
+                    }
+                    .cartcontrol-wrapper{
+                        position:absolute;
+                        right:0;
+                        bottom:12px;
                     }
                 }
             }
