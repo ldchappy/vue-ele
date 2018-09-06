@@ -1,7 +1,7 @@
 <template>
 	<div class="cartcontrol">
 		<transition name="move">
-			<div class="cart-decrease" v-show="food.count > 0" @click="decreaseCart">
+			<div class="cart-decrease" v-show="food.count > 0" @click.stop.prevent="decreaseCart">
 				<span class="inner"> - </span>
 			</div>
 		</transition>
@@ -53,65 +53,58 @@ import Vue from 'vue';
 		font-size:0;
 		.cart-decrease{
 			display:inline-block;
-			padding:6px;
-			line-height:24px;
+			height: 10px;
+		    line-height: 10px;
+			font-size:20px;
 			vertical-align:top;
-			font-size:24px;
-			color:rgb(0,160,220);
-
-			transform:translate3d(0,0,0);
-			opacity:1;
-
-			.inner{
-				display:inline-block;
-				text-align:center;
-				font-size:24px;
-				line-height:24px;
-				color:rgb(0,160,220);
-				transition:all .4s linear;
-				transform:rotate(0deg);
+			padding:6px;
+			background:lightblue;
+			color:#fff;
+			border-radius:50%;
+			transition:all .5s linear;
+			&.move-transition{
+				opacity:1;
+				transform:translate3d(0,0,0);
+				.inner{
+					display:inline-block;
+					text-align:center;
+					font-size:24px;
+					line-height:24px;
+					color:rgb(0,160,220);
+					transition:all .5s linear;
+					transform:rotate(0deg);
+				}
 			}
+			
 			&.move-enter,&.move-leave{
 				opacity:0;
-				transform:translate3d(24px,0,0);
+				transform:translate3d(34px,0,0);
 				.inner{
 					transform:rotate(180deg);
 				}
 			}
-			/* &.move-leave-active{
-				transition:all .4s linear;
-				opacity:0;
-				transform:translate3d(24px,0,0);
-				.inner{
-					transform:rotate(180deg);
-				}
-			}
-			&.move-enter-active{
-				transition:all .4s linear;
-				opacity:1;
-				transform:translate3d(24px,0,0);
-				.inner{
-					transform:rotate(180deg);
-				}
-			} */
+			
 		}
 		.cart-count{
 			display:inline-block;
 			vertical-align:top;
 			width:12px;
-			padding-top:6px;
+			margin:0 10px;
 			line-height:24px;
 			text-align:center;
-			font-size:10px;
-			color:rgb(147,153,159)
+			font-size:14px;
+			color:rgb(147,153,159);
 		}
 		.cart-add{
 			display:inline-block;
-			line-height:24px;
-			font-size:24px;
+			height: 10px;
+		    line-height: 10px;
+			font-size:20px;
 			vertical-align:top;
 			padding:6px;
-			color:rgb(0,160,220);
+			background:lightblue;
+			color:#fff;
+			border-radius:50%;
 		}
 	}
 </style>

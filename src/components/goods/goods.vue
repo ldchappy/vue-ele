@@ -14,7 +14,7 @@
                 <li class="food-list food-list-hook" v-for="item in goods">
                     <h1 class="title">{{item.name}}</h1>
                     <ul>
-                        <li class="food-item" v-for="food in item.foods">
+                        <li class="food-item" @click="selectFood(food,$event)" v-for="food in item.foods">
                             <div class="icon">
                                 <img :src="food.icon" width="100" height="100">
                             </div>
@@ -40,12 +40,15 @@
                 </li>
             </ul>
         </div>
-        <shopcart ref="shopcart"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+        <shopcart ref="shopcart" :select-foods="selectFoods"  :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+
+        <food :food="selectedFood"></food>
     </div>
 </template>
 <script>
 import BScroll from 'better-scroll';
 import shopcart from 'components/shopcart/shopcart';
+import food from 'components/food/food';
 import cartcontrol from 'components/cartcontrol/cartcontrol';
 
 const ERR_OK = 0;
@@ -57,7 +60,8 @@ const ERR_OK = 0;
             return {
                 goods : [],
                 listHeight : [],
-                scrollY:0
+                scrollY:0,
+                selectedFood : {}
             }
         },
         created(){
@@ -85,6 +89,17 @@ const ERR_OK = 0;
                     }
                 }
                 return 0;
+            },
+            selectFoods(){
+                let foods = [];
+                this.goods.forEach((good) => {
+                    good.foods.forEach((food) => {
+                        if(food.count){
+                            foods.push(food);
+                        }
+                    });
+                });
+                return foods;
             }
         },
         methods:{
@@ -129,11 +144,18 @@ const ERR_OK = 0;
                 this.$nextTick(() =>{
                     this.$refs.shopcart.drop(target);//这样可以调用到子组件的方法
                 })
+            },
+            selectFood(food,event){
+                if(!event._constructed){
+                    return;
+                }
+                this.selectedFood = food;
             }
         },
         components:{
             shopcart,
-            cartcontrol
+            cartcontrol,
+            food
         }
     }
 </script>

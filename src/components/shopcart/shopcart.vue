@@ -1,35 +1,64 @@
 <template>
-	<div class="shopcart">
-		<div class="content">
-			<div class="content-left">
-				<div class="logo-wrapper">
-					<div class="logo" :class="{'highlight':totalCount > 0}">
-						<i class="icon-shopping_cart"></i>
-					</div>
-					<div class="num" v-show="totalCount > 0">{{totalCount}}</div>
-				</div>
-				<div class="price" :class="{'highlight':totalPrice > 0 }">￥{{totalPrice}}元</div>
-				<div class="desc">另需配送费￥{{deliveryPrice}}元</div>
-			</div>
-			<div class="content-right">
-				<div class="pay" :class="payClass">
-					{{payDesc}}
-				</div>
-			</div>
-
-			<div class="ball-container">
-				<div v-for="ball in balls">
-					<transition @:befor-enter="beforEnter" @enter="Enter" @after-enter="afterEnter">
-						<div v-show="ball.show" class="ball">
-							<div class="inner inner-hook"></div>
+	<div>
+		<div class="shopcart" @click="toggleList">
+			<div class="content">
+				<div class="content-left">
+					<div class="logo-wrapper">
+						<div class="logo" :class="{'highlight':totalCount > 0}">
+							<i class="icon-shopping_cart"></i>
 						</div>
-					</transition>
+						<div class="num" v-show="totalCount > 0">{{totalCount}}</div>
+					</div>
+					<div class="price" :class="{'highlight':totalPrice > 0 }">￥{{totalPrice}}元</div>
+					<div class="desc">另需配送费￥{{deliveryPrice}}元</div>
 				</div>
+				<div class="content-right" @click.stop.prevent="pay">
+					<div class="pay" :class="payClass">
+						{{payDesc}}
+					</div>
+				</div>
+
+				<div class="ball-container">
+					<div v-for="ball in balls">
+						<transition @before-enter="beforeEnter" @enter="Enter" @after-enter="afterEnter">
+							<div v-show="ball.show" class="ball">
+								<div class="inner inner-hook"></div>
+							</div>
+						</transition>
+					</div>
+				</div>
+
+				<transition name="fold">
+					<div class="shopcart-list" v-show="listShow">
+						<div class="list-header">
+							<h1 class="title">购物车</h1>
+							<span class="empty" @click="empty">清空</span>
+						</div>
+						<div class="list-content" ref="listContent">
+							<ul>
+								<li class="food" v-for="food in selectFoods">
+									<span class="name">{{food.name}}</span>
+									<div class="price">
+										<span>￥{{food.price * food.count}}</span>
+									</div>
+									<div class="cartcontrol-wrapper">
+										<cartcontrol :food="food"></cartcontrol>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</transition>
 			</div>
 		</div>
+		<transition name="fade">
+			<div class="list-mask" @click="hideList" v-show="listShow"></div>
+		</transition>
 	</div>
 </template>
 <script>
+import BScroll from 'better-scroll';
+import cartcontrol from 'components/cartcontrol/cartcontrol';
 	export default{
 		props:{
 			/*deliveryPrice : Number*/
@@ -47,6 +76,9 @@
 					return [];
 				}
 			}
+		},
+		components:{
+			cartcontrol
 		},
 		data(){
 			return {
@@ -69,7 +101,8 @@
 					}
 				],
 				/*下落小球*/
-				dropBalls:[]
+				dropBalls:[],
+				fold:true
 			}
 		},
 		computed:{
@@ -92,7 +125,7 @@
 					return `￥${this.minPrice}元起送`
 				}else if(this.totalPrice < this.minPrice){
 					let diff = this.minPrice - this.totalPrice;
-					return `还差￥{diff}起送`;
+					return `还差￥${diff}起送`;
 				}else{
 					return '去结算';
 				}
@@ -103,6 +136,27 @@
 				}else{
 					return 'enough';
 				}
+			},
+			listShow(){
+				
+				if(!this.totalCount){
+					this.fold = true;
+					return false;
+				}
+				let show = !this.fold;
+				if(show){
+					
+					this.$nextTick(() => {
+						if(!this.scroll){
+								this.scroll = new BScroll(this.$refs.listContent,{
+								click : true
+							})
+							}else{
+								this.scroll.refresh();
+							}
+					})
+				}
+				return show;
 			}
 		},
 		methods:{
@@ -118,57 +172,79 @@
 					}
 				}
 			},
-			beforEnter(el){
-					let count = this.balls.length;
-					while(count--){
-						let ball = this.balls[count];
-						if(ball.show){
-							//getBoundingClientRect --> 获取元素位置
-							//元素相对于视口的距离
-							let rect = ball.el.getBoundingClientRect();
+			beforeEnter(el){
+				console.log('beforenter');
+				let count = this.balls.length;
+				while(count--){
+					let ball = this.balls[count];
+					if(ball.show){
+						//getBoundingClientRect --> 获取元素位置
+						//元素相对于视口的距离
+						let rect = ball.el.getBoundingClientRect();
 
-							//x,y为初始点 与 目标点的差值
-							let x = rect.left - 32;
-							let y = -(window.innerHeight - rect.top - 22);
-							console.log(x,y)
-							// el （初始位置为 0，0，0）和购物车icon在一起，将小球（el）  放到加号位置去
-							el.style.display = '';
-
-							//纵向动画
-							el.style.webkitTransform = `translate3d(0,${y}px,0)`;
-							el.style.transform = `translate3d(0,${y}px,0)`;
-
-							//横向动画  inner-hook->仅定义类dom选择器，不作样式
-							let inner = el.getElementsByClassName('inner-hook')[0];
-							inner.style.webkitTransform = `translate3d(${x}px,0,0)`;
-							inner.style.transform = `translate3d(${x}px,0,0)`;
-						}
-					}
-				},
-				Enter(el,done){
-					//手动触发浏览器重绘，便于translate3d，--rf 变量不会使用
-					let rf = el.offsetHeight;
-					this.$nextTick(() => {
+						//x,y为初始点 与 目标点的差值
+						let x = rect.left - 32;
+						let y = -(window.innerHeight - rect.top - 22);
+						console.log(x,y)
+						// el （初始位置为 0，0，0）和购物车icon在一起，将小球（el）  放到加号位置去
 						el.style.display = '';
-						el.style.webkitTransform = 'translate3d(0,0,0)';
-						el.style.transform = 'translate3d(0,0,0)';
 
+						//纵向动画
+						el.style.webkitTransform = `translate3d(0,${y}px,0)`;
+						el.style.transform = `translate3d(0,${y}px,0)`;
+
+						//横向动画  inner-hook->仅定义类dom选择器，不作样式
 						let inner = el.getElementsByClassName('inner-hook')[0];
-						inner.style.webkitTransform = 'translate3d(0,0,0)';
-						inner.style.transform = 'translate3d(0,0,0)';
-
-						el.addEventListener("transitionend",done);
-					})
-
-				},
-				afterEnter(el){
-					//此轮动画结束后，将此次的 ball 取出 ，ball状态重置，，el display:none
-					let ball = this.dropBalls.shift();
-					if(ball){
-						ball.show = false;
-						el.style.display = 'none';
+						inner.style.webkitTransform = `translate3d(${x}px,0,0)`;
+						inner.style.transform = `translate3d(${x}px,0,0)`;
 					}
 				}
+			},
+			Enter(el,done){
+				console.log('enter');
+				//手动触发浏览器重绘，便于translate3d，--rf 变量不会使用
+				let rf = el.offsetHeight;
+				this.$nextTick(() => {
+					el.style.display = '';
+					el.style.webkitTransform = 'translate3d(0,0,0)';
+					el.style.transform = 'translate3d(0,0,0)';
+
+					let inner = el.getElementsByClassName('inner-hook')[0];
+					inner.style.webkitTransform = 'translate3d(0,0,0)';
+					inner.style.transform = 'translate3d(0,0,0)';
+
+					el.addEventListener("transitionend",done);
+				})
+
+			},
+			afterEnter(el){
+				console.log('afterEnter');
+				//此轮动画结束后，将此次的 ball 取出 ，ball状态重置，，el display:none
+				let ball = this.dropBalls.shift();
+				if(ball){
+					ball.show = false;
+					el.style.display = 'none';
+				}
+			},
+			toggleList(){
+				if(!this.totalCount){
+					return;
+				}
+				this.fold = !this.fold;
+			},
+			hideList(){
+				this.fold = true;
+			},
+			empty(){
+				this.selectFoods.forEach((food) => {
+					food.count = 0;
+				})
+			},
+			pay(){
+				if(this.totalPrice < this.minPrice){
+					return;
+				}
+			}
 		}
 	}
 </script>
@@ -294,6 +370,88 @@
 				}
 				
 			}
+		}
+		.shopcart-list{
+			position:absolute;
+			/* top:0; */
+			z-index:-1;
+			left:0;
+			bottom: 48px;
+			width:100%;
+			&.fold-transition{
+				transition:all .5s;
+				transform:translate3d(0,-100%,0);
+			}
+			&.fold-enter,&.fold-leave{
+				transform:translate3d(0,0,0);
+			}
+			.list-header{
+				height:40px;
+				line-height:40px;
+				padding:0 18px;
+				background:#f3f5f7;
+				border-bottom:1px solid rgba(7,17,27,.2);
+				.title{
+					float:left;
+					font-size:14px;
+					color:rgb(7,17,27);
+				}
+				.empty{
+					float:right;
+					font-size:12px;
+					color:rgb(0,160,220);
+				}
+			}
+			.list-content{
+				padding:0 18px;
+				max-height:217px;
+				overflow:hidden;
+				background:#fff;
+				.food{
+					position:relative;
+					padding:12px 0;
+					box-sizing:border-box;
+					border-bottom:1px solid rgba(7,17,27,.2);
+					.name{
+						line-height:24px;
+						font-size:14px;
+						color:rgb(7,17,27);
+					}
+					.price{
+						position:absolute;
+						right:90px;
+						bottom:12px;
+						line-height:24px;
+						font-size:14px;
+						font-weight:700;
+						color:rgb(7,17,27);
+					}
+					.cartcontrol-wrapper{
+						position:absolute;
+						right:0;
+						bottom:6px;
+					}
+				}
+			}
+		}
+	}
+	.list-mask{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+		z-index:8;
+		backdrop-filter: blur(10px);
+		background: rgba(11,11,22,.5);
+		&.fade-transition{
+			transition:all .5s;
+			opacity:1;
+			background:rgba(7,17,27,.6);
+		}
+		&.fade-enter,&.fade-leave{
+			opacity:0;
+			background:rgba(7,17,27,0);
 		}
 	}
 </style>
