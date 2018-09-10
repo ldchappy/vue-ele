@@ -55,8 +55,8 @@
             "ratings": [{
                     "username": "323232323",
                     "rateTime": 124345234553263,
-                    "rateType": 0,
-                    "text": "可以可以",
+                    "rateType": 1,
+                    "text": "nono可以可以",
                     "avatar": "http://asdf.png"
                 },
                 {
@@ -128,8 +128,8 @@
             "ratings": [{
                     "username": "323232323",
                     "rateTime": 124345234553263,
-                    "rateType": 0,
-                    "text": "可以可以",
+                    "rateType": 1,
+                    "text": "可以可以1111",
                     "avatar": "http://asdf.png"
                 },
                 {
@@ -142,8 +142,8 @@
                 {
                     "username": "32asdf3",
                     "rateTime": 124345234553263,
-                    "rateType": 0,
-                    "text": "可以可以",
+                    "rateType": 1,
+                    "text": "可以可以222111",
                     "avatar": "http://asdf.png"
                 }
             ],

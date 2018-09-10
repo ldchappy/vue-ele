@@ -20,7 +20,7 @@
 					</div>
 
 					<div class="cartcontrol-wrapper" v-show="food.count>0">
-					<cartcontrol :food="food"></cartcontrol>
+					<cartcontrol @add="addFood" :food="food"></cartcontrol>
 					</div><!-- addFirst(food,$envet) 可以不传，默认有$event-->
 					<transition name="fade">
 						<div class="buy" @click.stop.prevent="addFirst" v-show="!food.count || food.count === 0">
@@ -38,9 +38,23 @@
 
 				<div class="rating">
 					<h1 class="title">商品评价</h1>
-					<ratingselect :select-type="selectType" :only-content="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+					<ratingselect @select="ratingtypeSelect" @onlyContent="contentToggle" :selectType="selectType" :onlyContent="onlyContent" :desc="desc" :ratings="food.ratings"></ratingselect>
+					<div class="rating-wrapper">
+						<ul v-show="food.ratings && food.ratings.length">
+							<li v-show="needShow(ratings.rateType,ratings.text)" class="rating-item" v-for="ratings in food.ratings">
+								<div class="user">
+									<span class="name">{{ratings.username}}</span>
+									<img class="avatar" :src="ratings.avatar" width="12" height="12">
+								</div>
+								<div class="time">{{ratings.rateTime | formatDate}}</div>
+								<p class="text">
+									<span :class="{'icon_up':ratings.rateType === 0 ,'icon_down':ratings.rateType === 1}">{{ratings.text}}</span>
+								</p>
+							</li>
+						</ul>
+						<div class="no-rating" v-show="!food.ratings || !food.ratings.length">暂无评价</div>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</transition>
@@ -51,6 +65,7 @@ import Vue from 'vue';
 import cartcontrol from 'components/cartcontrol/cartcontrol';
 import split from 'components/split/split';
 import ratingselect from 'components/ratingselect/ratingselect';
+import {formatDate} from '../../common/js/date';
 
 const POSITIVE = 0;
 const NEGATIVE = 1;
@@ -80,6 +95,12 @@ export default {
 		split,
 		ratingselect
 	},
+	filters:{
+		formatDate(time) {
+			let date = new Date(time);
+			return formatDate(date,'yyyy-MM-dd hh:mm')
+		}
+	},
 	methods :{
 		show(){
 			this.showFlag = true;
@@ -92,21 +113,48 @@ export default {
 						click : true
 					})
 				}else{
-					this.scroll.refresh();
+					this.scroll && this.scroll.refresh();
 				}
 			})
 		},
+		addFood(){
+		    //当前组件必须在父组件 引入处，bangding @add="xxx",继而执行 父组件的 xxx 方法
+	        this.$emit('add',target);
+		},
 		addFirst(event){
-			console.log(123)
 			if(!event._constructed){
 				return;
 			}
-			console.log(456)
 			this.$emit('add',event.target);
 			Vue.set(this.food,'count',1);
 		},
 		back(){
 			this.showFlag = false;
+		},
+		needShow(type,text){
+			if(this.onlyContent && !text){
+				return false;
+			}
+			if(this.selectType === ALL){
+				return true;
+			}else{
+				return type === this.selectType;
+			}
+		},
+		contentToggle(type){
+			this.selectType = type;
+			console.log(type)
+			this.$nextTick(() => {
+				this.scroll.refresh();
+			})
+		},
+		ratingtypeSelect(onlyContent){
+			var sele = this;
+			this.onlyContent = !onlyContent;
+			console.log(onlyContent)
+			this.$nextTick(() => {
+				this.scroll.refresh();
+			})
 		}
 	}
 }
@@ -274,10 +322,10 @@ export default {
 								font-size :12px;
 								line-height :24px;
 							}
-							.icon-thumb_up{
+							.icon_up{
 								color :rgb(0,160,220);
 							}
-							.icon-thumb_down{
+							.icon_down{
 								color :rgb(147,153,159);
 							}
 						}
