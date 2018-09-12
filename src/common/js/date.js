@@ -65,7 +65,7 @@ export function saveToLocal(id,key,value){
 	window.localStorage.__seller__ = JSON.stringify(seller);
 }
 
-export function loadFormLocal(id,key,def){
+export function loadFromLocal(id,key,def){
 	let seller = window.localStorage.__seller__;
 	if(!seller){
 		return def;

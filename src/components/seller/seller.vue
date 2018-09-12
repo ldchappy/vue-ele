@@ -30,21 +30,55 @@
         			</li>
         		</ul>
         		<!-- 收藏 -->
-        		<div class="favorite">
+        		<div class="favorite" @click="toggleFavorite">
         			<span class="icon-favorite" :class="{'active':favorite}"></span>
         			<span class="text">{{favoriteText}}</span>
         		</div>
         	</div>
+        	<split></split>
+			<!-- 商家公告 -->
+			<div class="bulletin">
+				<h1 class="title">公告与活动</h1>
+				<div class="content-wrapper">
+					<p>{{seller.bulletin}}</p>
+				</div>
+				<!-- supports内容 -->
+				<ul class="support" v-if="seller.supports">
+					<li class="support-item" v-for="(item,index) in seller.supports">
+						<span class="icon" :class="classMap[seller.supports[index].type]"></span>
+						<span class="text">{{seller.supports[index].description}}</span>
+					</li>
+				</ul>
+			</div>
+			<split></split>
+			<!-- 商家实景 -->
+			<div class="pics">
+				<h1 class="title">商家实景</h1>
+				<div class="picwrapper" ref="picWrapper">
+					<ul class="pic-list" ref="picList">
+						<li class="pic-item" v-for="pic in seller.pics">
+							<img width="120" height="90" :src="pic" alt="">
+						</li>
+					</ul>
+				</div>
+			</div>
+			<split></split>
+			<!-- 商家信息 -->
+			<div class="info">
+				<h1 class="title">商家信息</h1>
+				<ul>
+					<li class="info-item" v-for="info in seller.infos">{{info}}</li>
+				</ul>
+			</div>
+
         </div>
-        <split></split>
-
-
     </div>
 </template>
 <script>
 
 import split from '../../components/split/split';
-import {saveToLocal,loadFromLocal} from '../../common/js/date.js';
+import BScroll from 'better-scroll';
+import {saveToLocal,loadFromLocal} from '../../common/js/date';
 
 
 export default{
@@ -54,8 +88,48 @@ export default{
 	data(){
 		return {
 			favorite:(() => {
-				return loadFromLocal(this.seller.id,'favorite',false)
+				return loadFromLocal(this.seller.id,'favorite',false);
 			}) 
+		}
+	},
+	created(){
+		this.classMap = ['jiang','man','shou','song','zhe'];
+	},
+	mounted(){
+		this._initScroll();
+		this._initPicScroll();
+	},
+	updated(){
+		this.scroll.refresh();
+	},
+	watch:{
+		seller(){
+			this.$nextTick(() => {
+				this._initPicScroll();
+			})
+		}
+	},
+	methods:{
+		_initScroll(){
+			console.log(123)
+			this.scroll = new BScroll(this.$refs.seller,{click:true});
+		},
+		_initPicScroll(){
+			if(this.seller.pics){
+				let picWidth = 120;
+				let margin = 6;
+				let width = this.seller.pics.length * (picWidth + margin) -margin;
+				this.$refs.picList.style.width = width + 'px';
+				this.picScroll = new BScroll(this.$refs.picWrapper,{
+					scrollX : true,
+					eventPassthrough:'vertical'
+				})
+			}
+		},
+		toggleFavorite(event){
+			if(!event._constructed) return;
+			this.favorite = !this.favorite;
+			saveToLocal(this.seller.id,'favorite',this.favorite);
 		}
 	},
 	computed:{
@@ -69,6 +143,7 @@ export default{
 }
 </script>
 <style lang="scss" scoped>
+@import '../../../static/mixin.scss';
 	.seller{
 		position:absolute;
 		left:0;
@@ -155,105 +230,105 @@ export default{
 					}
 				}
 			}
-			.bulletin{
-				padding :18px;
-				padding-bottom :0;
-				.title{
-					color :rgb(7,17,27);
-					font-size :14px;
-					line-height :14px;
-					font-weight :800;
-					margin-bottom :8px;
+		}
+		.bulletin{
+			padding :18px;
+			padding-bottom :0;
+			.title{
+				color :rgb(7,17,27);
+				font-size :14px;
+				line-height :14px;
+				font-weight :800;
+				margin-bottom :8px;
+			}
+			.content-wrapper{
+				font-size :12px;
+				padding:0 12px;
+				padding-bottom :16px;
+				border-top:1px solid rgba(7, 17, 27, 0.1);
+				p{
+					color :rgb(240,20,20);
+					font-weight :400;
+					line-height :24px;
 				}
-				.content-wrapper{
-					font-size :12px;
-					padding:0 12px;
-					padding-bottom :16px;
+			}
+			.support{
+				.support-item{
+					padding :16px 12px;
 					border-top:1px solid rgba(7, 17, 27, 0.1);
-					p{
-						color :rgb(240,20,20);
-						font-weight :400;
-						line-height :24px;
+					/* font-size:0px; */
+					&:last-child{
+						
 					}
-				}
-				.support{
-					.support-item{
-						padding :16px 12px;
-						border-top:1px solid rgba(7, 17, 27, 0.1);
-						font-size: 0;
-						&:last-child{
-							
-						}
-						.icon{
-							display: inline-block;
-							width: 16px;
-							height: 16px;
-							vertical-align: top;
-							margin-right: 6px;
-							background-size: 16px 16px;
-							background-repeat: no-repeat;
-							/* &.decrease {
-								bg-image('decrease_4');
-							}
-							&.discount {
-								bg-image('discount_4');
-							}
-							&.guarantee {
-								bg-image('guarantee_4');
-							}
-							&.invoice {
-								bg-image('invoice_4');
-							}
-							&.special {
-								bg-image('special_4');
-							} */
-						}
+					.icon{
+						display: inline-block;
+						width: 16px;
+						height: 16px;
+						vertical-align: top;
+						margin-right: 6px;
+						background-size: 16px 16px;
+						background-repeat: no-repeat;
+						&.jiang{
+	                        @include bg-image('../../assets/png/jiang')
+	                    }
+	                    &.man{
+	                        @include bg-image('../../assets/png/man')
+	                    }
+	                    &.shou{
+	                        @include bg-image('../../assets/png/shou')
+	                    }
+	                    &.song{
+	                        @include bg-image('../../assets/png/song')
+	                    }
+	                    &.zhe{
+	                        @include bg-image('../../assets/png/zhe')
+	                    }
 					}
 				}
 			}
-			.pics{
-				padding :18px 0 18px 18px;
-				.title{
-					color :rgb(7,17,27);
-					font-size :14px;
-					line-height :14px;
-					font-weight :800;
-					margin-bottom :8px;
-				}
-				.picwrapper{
-					width :100%;
-					overflow :hidden;
-					white-space :nowrap;
-					.pic-list{
-						font-size :0;
-						.pic-item{
-							display :inline-block;
-							margin-right :6px;
-							width :120px;
-							height:90px;
-						}
+		}
+		.pics{
+			padding :18px 0 18px 18px;
+			.title{
+				color :rgb(7,17,27);
+				font-size :14px;
+				line-height :14px;
+				font-weight :800;
+				margin-bottom :8px;
+			}
+			.picwrapper{
+				width :100%;
+				overflow :hidden;
+				white-space :nowrap;
+				.pic-list{
+					font-size :0;
+					.pic-item{
+						display :inline-block;
+						margin-right :6px;
+						width :120px;
+						height:90px;
 					}
 				}
 			}
-			.info{
-				padding :18px 18px 0 18px;
-				.title{
-					color :rgb(7,17,27);
-					font-size :14px;
-					line-height :14px;
-					font-weight :800;
-					padding-bottom :8px;
-					border-top:1px solid rgba(7, 17, 27, 0.1);
-				}
-				.info-item{
-					//列表垂直居中 用 上下 padding 可防止列表中数字过多造成影响
-					padding: 16px 12px;
-					font-size :12px;
-					line-height :16px;
-					font-weight :200;
-					color :rgb(7,17,27);
-					border-top:1px solid rgba(7, 17, 27, 0.1);
-				}
+		}
+		.info{
+			padding :18px 18px 0 18px;
+			.title{
+				color :rgb(7,17,27);
+				font-size :14px;
+				line-height :14px;
+				font-weight :800;
+				padding-bottom :8px;
+				border-top:1px solid rgba(7, 17, 27, 0.1);
+			}
+			.info-item{
+				//列表垂直居中 用 上下 padding 可防止列表中数字过多造成影响
+				padding: 16px 12px;
+				font-size :12px;
+				line-height :16px;
+				font-weight :200;
+				color :rgb(7,17,27);
+				border-top:1px solid rgba(7, 17, 27, 0.1);
 			}
 		}
 	}
